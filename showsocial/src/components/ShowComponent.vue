@@ -1,7 +1,14 @@
+<script setup>
+import { useShowStore } from '../stores/shows';
+const store = useShowStore();
+</script>
+
 <template>
   <div class="show-wrapper">
     <p>{{ show.name }}</p>
-    <img :src="show.image.original" alt="">
+    <img :src="show.image.original" alt="" v-if="show.image">
+    <p v-else>(Image not available)</p>
+    <button @click="store.addShow(show)" class="add-btn" v-if="isAddable">Add show</button>
   </div>
 </template>
 
@@ -10,6 +17,7 @@ export default {
   name: "ShowComponent",
   props: {
     show: Object,
+    isAddable: Boolean,
   },
 }
 </script>
