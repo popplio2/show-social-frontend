@@ -9,7 +9,7 @@ const store = useShowStore();
       <div>
         <h1>Find shows</h1>
         <span>
-          <input v-model="store.searchInput" type="text">
+          <input @keyup.enter="fetchData()" v-model="store.searchInput" type="text">
           <button @click="fetchData()" class="search-btn">Search</button>
         </span>
       </div>
@@ -20,7 +20,7 @@ const store = useShowStore();
   </div>
 </template>
 <script>
-const store = useShowStore();
+const store = useShowStore(); //this has to be here for it to work for some reason
 
 import ShowComponent from '../components/ShowComponent.vue';
 export default {
