@@ -1,32 +1,44 @@
 <script setup>
 import { useShowStore } from '../stores/shows';
-const store = useShowStore();
+const showStore = useShowStore();
 </script>
 
 <template>
-  <h1>My Shows:</h1>
+  <h1>{{ showStore.username }}'s Shows</h1>
 
-  <div v-if="store.showCounter !== 0">
+  <div v-if="showStore.showCounter !== 0">
     <div class="sort-btns">
-      <button @click="store.sortByName()">Sort alphabetically</button>
-      <button @click="store.sortByFirst()">Sort by first added</button> 
-      <button @click="store.sortByLast()">Sort by last added</button> 
+      <button @click="showStore.sortByName()">Sort alphabetically</button>
+      <button @click="showStore.sortByFirst()">Sort by first added</button> 
+      <button @click="showStore.sortByLast()">Sort by last added</button> 
     </div>
     <div class="my-shows">
-      <ShowComponent v-for="show in store.myShows" :show="show" :isAddable="false" :key="show.id" />
+      <ShowComponent @post="postShow(show)" v-for="show in showStore.myShows" :show="show" :isAddable="false" :key="show.id" />
     </div>
   </div>
-
   <h2 v-else>You have no shows added. Go to the search tab to add some!</h2>
 
+  <ShowPost :show="showPost" v-if="showPost"/>
 </template>
 
 <script>
 import ShowComponent from '../components/ShowComponent.vue';
+import ShowPost from '../components/ShowPost.vue';
 
 export default {
   components: { 
-    ShowComponent 
+    ShowComponent,
+    ShowPost 
+  },
+  data() {
+    return {
+      showPost: null,
+    }
+  },
+  methods: {
+    postShow(show) {
+      this.showPost = show;
+    }
   }
 }
 </script>

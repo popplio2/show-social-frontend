@@ -5,8 +5,8 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header>
       <nav>
-        <!-- <RouterLink to="/community">Community</RouterLink>
-        <RouterLink to="/friends">Friends</RouterLink> -->
+        <RouterLink to="/community">Community</RouterLink>
+        <RouterLink to="/friends">Friends</RouterLink>
         <RouterLink to="/search">Search</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
       </nav>

@@ -1,6 +1,6 @@
 <script setup>
 import { useShowStore } from '../stores/shows';
-const store = useShowStore();
+const showStore = useShowStore();
 </script>
 
 <template>
@@ -8,7 +8,8 @@ const store = useShowStore();
     <p>{{ show.name }}</p>
     <img :src="show.image.original" alt="" v-if="show.image">
     <p v-else>(Image not available)</p>
-    <button @click="store.addShow(show)" class="add-btn" v-if="isAddable">Add show</button>
+    <button @click="showStore.addShow(show)" class="add-btn" v-if="isAddable">Add show</button>
+    <button @click="$emit('post')" class="add-btn" v-else>Post show</button>
   </div>
 </template>
 

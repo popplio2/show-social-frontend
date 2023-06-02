@@ -1,15 +1,10 @@
-<script setup>
-import { useShowStore } from '../stores/shows';
-const store = useShowStore();
-</script>
-
 <template>
   <div class="search">
     <div class="search-bar">
       <div>
         <h1>Find shows</h1>
         <span>
-          <input @keyup.enter="fetchData()" v-model="store.searchInput" type="text">
+          <input @keyup.enter="fetchData()" v-model="showStore.searchInput" type="text">
           <button @click="fetchData()" class="search-btn">Search</button>
         </span>
       </div>
@@ -20,8 +15,7 @@ const store = useShowStore();
   </div>
 </template>
 <script>
-const store = useShowStore(); //this has to be here for it to work for some reason
-
+import { useShowStore } from '../stores/shows';
 import ShowComponent from '../components/ShowComponent.vue';
 export default {
   name: "SearchView",
@@ -33,21 +27,25 @@ export default {
       showArray: [],
     }
   },
+  setup() {
+    const showStore = useShowStore();
+    return { showStore };
+  },
   mounted() {
     this.fetchData();
   },
   methods: {
     fetchData: async function () { 
-      if (store.searchInput !== "") { // makes sure input isn't blank
+      if (this.showStore.searchInput !== "") { // makes sure input isn't blank
         try {
-        console.log(store.searchInput);
+        console.log(this.showStore.searchInput);
         const result = await fetch(
-          `https://api.tvmaze.com/search/shows?q=${store.searchInput}`
+          `https://api.tvmaze.com/search/shows?q=${this.showStore.searchInput}`
         );
         const showArray = await result.json();
         this.showArray = showArray;
         if (this.showArray.length === 0) {
-          alert(`Could not find any shows with the title: "${store.searchInput}". Check for typos and try again.`)
+          alert(`Could not find any shows with the title: "${this.showStore.searchInput}". Check for typos and try again.`)
         }
       } catch (error) {
         alert(error);

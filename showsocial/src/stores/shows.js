@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export const useShowStore = defineStore({
   id: 'shows',
   state: () => ({
+    username: "Dan",
     searchInput: "",
     myShows: [],
     showCounter: 0,
