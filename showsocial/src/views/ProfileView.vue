@@ -18,7 +18,7 @@ const showStore = useShowStore();
   </div>
   <h2 v-else>You have no shows added. Go to the search tab to add some!</h2>
 
-  <ShowPost :show="showPost" v-if="showPost"/>
+  <ShowPost @closePostModal="showPost = null" :show="showPost" v-if="showPost"/>
 </template>
 
 <script>

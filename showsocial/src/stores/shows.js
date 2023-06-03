@@ -7,10 +7,9 @@ export const useShowStore = defineStore({
     searchInput: "",
     myShows: [],
     showCounter: 0,
+    // posts: []
+    // friends: []
   }),
-  getters: {
-    // doubleCount: (state) => state.counter * 2
-  },
   actions: {
     addShow(show) {
       this.myShows.push(show);

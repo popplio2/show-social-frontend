@@ -5,16 +5,17 @@ export const usePostStore = defineStore({
   state: () => ({
     community: [],
     friends: [],
+    postCounter: 0,
   }),
-  getters: {
-    // doubleCount: (state) => state.counter * 2
-  },
   actions: {
+    incrementPostCount() {
+      this.postCounter++;
+    },
     addToFriends(post) {
       this.friends.push(post);
     },
     addToCommunity(post) {
-      this.friends.push(post);
+      this.community.push(post);
     },
     addToBoth(post) {
       this.addToCommunity(post);

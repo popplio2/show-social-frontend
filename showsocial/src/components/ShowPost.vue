@@ -1,13 +1,14 @@
 <template>
   <div class="post-wrapper">
+    <button @click="$emit('closePostModal')">Close</button>
     <div class="post-contents">
       <div>
         <h1>I'm watching {{ show.name }}!</h1>
         <img :src="show.image.original" alt="" v-if="show.image">
         <p v-else>(Image not available)</p>
       </div>
-      <form>
-        <label for="post-text">Write what you think about {{ show.name }}</label><br>
+      <form onsubmit="return false"> 
+        <label for="post-text">Write what you think about "{{ show.name }}".</label><br>
         <textarea v-model="postText" name="post-text" id="post-text" cols="30" rows="10" placeholder="Write what you think here" required></textarea>
         <h2>Post to:</h2>
         <input class="checkbox-1" @change="toCommunity = !toCommunity" type="checkbox" id="community" name="community" value="Community">
@@ -16,7 +17,7 @@
         <label for="friends">Friends</label><br>
         <h3>(This can be changed later)</h3>
 
-        <button @click="postShow()" type="submit">Submit</button>
+        <button @click="postShow()">Submit</button>
       </form> 
     </div>
   <!-- create post function that adds post object to vuex, each post object should be tagged with community and friends properties that are booleans and can be edited -->
@@ -45,23 +46,28 @@ export default {
   methods: {
     postShow() {
       document.getElementById('community').setCustomValidity('');
-      const postObject = {
-        showName: this.show.name,
-        showImage: this.show.image,
-        text: this.postText,
-        toCommunity: this.toCommunity,
-        toFriends: this.toFriends,
-      };
-      if (this.toCommunity && this.toFriends) {
-        this.postStore.addToBoth(postObject);
-      } else if (this.toCommunity) {
-        this.postStore.addToCommunity(postObject);
-      } else if (this.toFriends) {
-        this.postStore.addToFriends(postObject)
-      } else {
+      if (this.toCommunity || this.toFriends) {
+        this.postStore.incrementPostCount();
+        const postObject = {
+          postID: this.postStore.postCounter,
+          showName: this.show.name,
+          showImage: this.show.image.original,
+          text: this.postText,
+          toCommunity: this.toCommunity,
+          toFriends: this.toFriends,
+        };
+        if (this.toCommunity && this.toFriends) {
+          this.postStore.addToBoth(postObject);
+        } else if (this.toCommunity) {
+          this.postStore.addToCommunity(postObject);
+        } else { // if(this.toFriends)
+          this.postStore.addToFriends(postObject)
+        }
+      }
+       else {
         document.getElementById('community').setCustomValidity("Select at least one place to post.");
       }
-    }
+    },
   }
 }
 </script>
