@@ -7,7 +7,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <nav>
         <RouterLink to="/community">Community</RouterLink>
         <RouterLink to="/friends">Friends</RouterLink>
-        <RouterLink to="/search">Search</RouterLink>
+        <RouterLink to="/search">Search Shows</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
       </nav>
   </header>

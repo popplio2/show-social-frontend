@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <ShowComponent v-for="show in showArray" :show="show.show" :key="show.id"/>
 </template>
 
@@ -38,4 +38,4 @@ export default {
 
 <style>
 
-</style>
+</style> -->

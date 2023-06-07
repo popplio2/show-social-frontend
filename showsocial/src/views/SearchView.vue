@@ -4,7 +4,7 @@
       <div>
         <h1>Find shows</h1>
         <span>
-          <input @keyup.enter="fetchData()" v-model="showStore.searchInput" type="text">
+          <input @keyup.enter="fetchData()" v-model="userStore.searchInput" type="text">
           <button @click="fetchData()" class="search-btn">Search</button>
         </span>
       </div>
@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import { useShowStore } from '../stores/shows';
+import { useUserStore } from '../stores/user';
 import ShowComponent from '../components/ShowComponent.vue';
 export default {
   name: "SearchView",
@@ -28,24 +28,24 @@ export default {
     }
   },
   setup() {
-    const showStore = useShowStore();
-    return { showStore };
+    const userStore = useUserStore();
+    return { userStore };
   },
   mounted() {
     this.fetchData();
   },
   methods: {
     fetchData: async function () { 
-      if (this.showStore.searchInput !== "") { // makes sure input isn't blank
+      if (this.userStore.searchInput !== "") { // makes sure input isn't blank
         try {
-        console.log(this.showStore.searchInput);
+        console.log(this.userStore.searchInput);
         const result = await fetch(
-          `https://api.tvmaze.com/search/shows?q=${this.showStore.searchInput}`
+          `https://api.tvmaze.com/search/shows?q=${this.userStore.searchInput}`
         );
         const showArray = await result.json();
         this.showArray = showArray;
         if (this.showArray.length === 0) {
-          alert(`Could not find any shows with the title: "${this.showStore.searchInput}". Check for typos and try again.`)
+          alert(`Could not find any shows with the title: "${this.userStore.searchInput}". Check for typos and try again.`)
         }
       } catch (error) {
         alert(error);

@@ -1,14 +1,15 @@
 import { defineStore } from 'pinia'
 
-export const useShowStore = defineStore({
-  id: 'shows',
+export const useUserStore = defineStore({
+  id: 'user',
   state: () => ({
     username: "Dan",
     searchInput: "",
     myShows: [],
     showCounter: 0,
-    // posts: []
-    // friends: []
+    posts: [],
+    friendRequests: [],
+    friends: [],
   }),
   actions: {
     addShow(show) {
