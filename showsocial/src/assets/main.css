@@ -5,7 +5,9 @@
   font-weight: normal;
   font-size: 62.5%;
 }
-
+button, a {
+  cursor: pointer;
+}
 a,
 .green {
   text-decoration: none;

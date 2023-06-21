@@ -1,11 +1,8 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
-  <header>
+  <!-- <SignupModal @sign-in="isRegistered = true;" v-if="!isRegistered" /> -->
+  <header> 
       <nav>
-        <RouterLink to="/community">Community</RouterLink>
+        <RouterLink to="/">Community</RouterLink>
         <RouterLink to="/friends">Friends</RouterLink>
         <RouterLink to="/search">Search Shows</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
@@ -13,7 +10,21 @@ import { RouterLink, RouterView } from 'vue-router'
   </header>
 
   <RouterView />
+
+  
 </template>
+
+<script>
+// import SignupModal from './components/SignupModal.vue'
+export default {
+  // components: { SignupModal },
+  data() {
+    return {
+      isRegistered: false,
+    }
+  }
+}
+</script>
 
 <style scoped>
   header {

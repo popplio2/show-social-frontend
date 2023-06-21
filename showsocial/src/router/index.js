@@ -4,7 +4,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/community',
+      path: '/',
       name: 'community',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -25,6 +25,11 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: () => import('../views/ProfileView.vue')
+    },
+    {
+      path: '/find-friends',
+      name: 'find-friends',
+      component: () => import('../views/FindFriends.vue')
     }
   ]
 })

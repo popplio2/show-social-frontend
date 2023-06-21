@@ -4,8 +4,13 @@ const userStore = useUserStore();
 </script>
 
 <template>
-  <!-- section for friend requests -->
+  <RouterLink to="/find-friends">
+    <button>Profile</button>
+  </RouterLink>
+  
   <div>
+    <img :src="userStore.profilePic" alt="" v-if="userStore.profilePic">
+    <h1 v-else>Oof no profile pic 0_0</h1>
     <h1>{{ userStore.username }}'s Friends</h1>
     <div v-if="userStore.friends.length !== 0">
       <div>
@@ -30,19 +35,19 @@ const userStore = useUserStore();
     </div>
     <h2 v-else>You have no shows added. Go to the search tab to add some!</h2>
 
-    <ShowPost @closePostModal="showPost = null" :show="showPost" v-if="showPost"/>
+    <PostModal @closePostModal="showPost = null" :show="showPost" v-if="showPost"/>
   </div>
 
 </template>
 
 <script>
 import ShowComponent from '../components/ShowComponent.vue';
-import ShowPost from '../components/ShowPost.vue';
+import PostModal from '../components/PostModal.vue';
 
 export default {
   components: { 
     ShowComponent,
-    ShowPost 
+    PostModal 
   },
   data() {
     return {
