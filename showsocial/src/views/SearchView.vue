@@ -59,27 +59,32 @@ export default {
           `https://api.tvmaze.com/search/shows?q=${this.userStore.searchInput}`
         );
         const showArray = await result.json();
-
-        if (this.genreSelected !== null) {
-          alert('filtering genres')
+        
+        const filteredArray = [];
+        if (this.genreSelected !== null && this.languageSelected !== null) {
           showArray.forEach(show => {
-            if (!show.show.genres.includes(this.genreSelected)) {
-              console.log(`${show.show.name} genres includes ${this.genreSelected}: ${show.show.genres.includes(this.genreSelected)}`);
-              showArray.pop(show);
+            if (show.show.genres.includes(this.genreSelected) && show.show.language === this.languageSelected) {
+              filteredArray.push(show);
             }
           });
-        }
-        if (this.languageSelected !== null) {
-          alert('filtering languages')
+          this.showArray = filteredArray;
+        } else if (this.genreSelected !== null) {
           showArray.forEach(show => {
-            if (show.show.language !== this.languageSelected) {
-              console.log(`${show.show.name} language is ${this.languageSelected}: ${show.show.language === this.languageSelected}`);
-              showArray.pop(show);
+            if (show.show.genres.includes(this.genreSelected)) {
+              filteredArray.push(show);
             }
           });
+          this.showArray = filteredArray;
+        } else if (this.languageSelected !== null) {
+          showArray.forEach(show => {
+            if (show.show.language === this.languageSelected) {
+              filteredArray.push(show);
+            }
+          });
+          this.showArray = filteredArray;
+        } else {
+          this.showArray = showArray;
         }
-  
-        this.showArray = showArray;
         if (this.showArray.length === 0) {
           alert(`Could not find any shows with the title: "${this.userStore.searchInput}". Make sure the title is spelled correctly.`)
         }
