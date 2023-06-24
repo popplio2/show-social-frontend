@@ -24,14 +24,47 @@ export default {
 </script>
 
 <style scoped>
-  .show-wrapper {
-    background-color: #fff;
-    margin: 2rem;
+   .show-wrapper {
+    flex-basis: 20rem; /* Minimum width of 30rem */
+    flex-grow: 1; /* Allow items to grow and fill up remaining space */
+    max-width: calc(100% / 3); /* Divide the container into equal columns */
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: .1rem black solid;
+    border-radius: 1rem;
     padding: 2rem;
+    transition: .3s all;
+  }
+  .show-wrapper:hover {
+    transform: scale(1.05);
   }
   img {
     object-fit: cover;
-    width: 10rem;
     height: 15rem;
+    width: 90%;
   }
+  button {
+    margin-top: 2rem;
+  }
+  p {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Media queries for responsive behavior */
+@media screen and (max-width: 1200px) {
+  .show-wrapper {
+    max-width: calc(100% / 2); /* Two columns on smaller screens */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .show-wrapper {
+    max-width: 100%; /* Single column on the smallest screens */
+  }
+}
 </style>

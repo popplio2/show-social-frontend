@@ -3,19 +3,19 @@
     <button @click="$emit('closePostModal')">Close</button>
     <div class="post-contents">
       <div>
-        <h1>I'm watching {{ show.name }}!</h1>
+        <h2>I'm watching {{ show.name }}!</h2>
         <img :src="show.image.original" alt="" v-if="show.image">
         <p v-else>(Image not available)</p>
       </div>
       <form onsubmit="return false"> 
         <label for="post-text">Write what you think about "{{ show.name }}".</label><br>
         <textarea v-model="postText" name="post-text" id="post-text" cols="30" rows="10" placeholder="Write what you think here" required></textarea>
-        <h2>Post to:</h2>
+        <h3>Post to:</h3>
         <input class="checkbox-1" @change="toCommunity = !toCommunity" type="checkbox" id="community" name="community" value="Community">
         <label for="community">Community</label><br>
         <input @change="toFriends = !toFriends" type="checkbox" id="friends" name="friends" value="Friends">
         <label for="friends">Friends</label><br>
-        <h3>(This can be changed later)</h3>
+        <h4>(This can be changed later)</h4>
 
         <button @click="postShow()">Submit</button>
       </form> 
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { useUserStore } from '../stores/user';
 import { usePostStore } from '../stores/posts';
 
 export default {
@@ -41,18 +42,19 @@ export default {
   },
   setup() {
     const postStore = usePostStore();
-    return { postStore };
+    const userStore = useUserStore();
+    return { postStore, userStore};
   },
   methods: {
     postShow() {
       document.getElementById('community').setCustomValidity('');
       if (this.toCommunity || this.toFriends) {
-        this.postStore.incrementPostCount();
         const postObject = {
-          postID: this.postStore.postCounter,
+          author: this.userStore.username,
           showName: this.show.name,
           showImage: this.show.image.original,
           text: this.postText,
+          date: new Date().toJSON().slice(0, 10),
           toCommunity: this.toCommunity,
           toFriends: this.toFriends,
         };

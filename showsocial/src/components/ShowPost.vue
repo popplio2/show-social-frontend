@@ -1,16 +1,18 @@
 <template>
   <div class="post-wrapper">
+    <h3>I'm watching {{ post.showName }}!</h3>
     <div class="post-contents">
       <div>
-        <h1>I'm watching {{ show.name }}!</h1>
-        <img :src="show.image.original" alt="" v-if="show.image">
+        <img :src="post.showImage" alt="" v-if="post.showImage">
         <p v-else>(Image not available)</p>
       </div>
-       <p>{{  }}</p>
+      <div class="post-text">
+        <p>{{ post.text }}</p>
+        <h4>{{ post.author }}</h4>
+        <h4>{{ post.date }}</h4>
+      </div>
     </div>
-  <!-- create post function that adds post object to vuex, each post object should be tagged with community and friends properties that are booleans and can be edited -->
-  <!-- should check to make sure at least one checkbox is checked, otherwise throw an error -->
-  </div>
+ </div>
 </template>
 
 <script>
@@ -18,7 +20,7 @@ import { usePostStore } from '../stores/posts';
 
 export default {
   props: {
-    show: Object,
+    post: Object,
   },
   data() {
     return {
@@ -31,51 +33,52 @@ export default {
     const postStore = usePostStore();
     return { postStore };
   },
-  methods: {
-    postShow() {
-      document.getElementById('community').setCustomValidity('');
-      if (this.toCommunity || this.toFriends) {
-        this.postStore.incrementPostCount();
-        const postObject = {
-          postID: this.postStore.postCounter,
-          showName: this.show.name,
-          showImage: this.show.image.original,
-          text: this.postText,
-          toCommunity: this.toCommunity,
-          toFriends: this.toFriends,
-        };
-        if (this.toCommunity && this.toFriends) {
-          this.postStore.addToBoth(postObject);
-        } else if (this.toCommunity) {
-          this.postStore.addToCommunity(postObject);
-        } else { // if(this.toFriends)
-          this.postStore.addToFriends(postObject)
-        }
-      }
-       else {
-        document.getElementById('community').setCustomValidity("Select at least one place to post.");
-      }
-    },
-  }
 }
 </script>
 
 <style scoped>
   .post-wrapper {
-    display: flex;
-    flex-direction: column;
+    flex-basis: 35rem; /* Minimum width of 30rem */
+    flex-grow: 1; /* Allow items to grow and fill up remaining space */
+    max-width: calc(100% / 3); /* Divide the container into equal columns */
+    
     align-items: center;
-    outline: .1rem black solid;
+    border: .1rem black solid;
+    border-radius: 1rem;
     padding: 2rem;
-    z-index: 1;
+    transition: .3s all;
+  }
+  .post-wrapper:hover {
+    transform: scale(1.05);
   }
   .post-contents {
     display: flex;
+    flex-direction: row;
     gap: 2rem;
   }
   .post-contents img {
     object-fit: cover;
-    width: 10rem;
-    height: 15rem;
+    height: 10rem;
   }
+  .post-text p {
+    width: max-content;
+    height: 10rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+/* Media queries for responsive behavior */
+@media screen and (max-width: 1200px) {
+  .post-wrapper {
+    max-width: calc(100% / 2); /* Two columns on smaller screens */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .post-wrapper {
+    max-width: 100%; /* Single column on the smallest screens */
+  }
+}
+
 </style>

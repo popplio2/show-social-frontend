@@ -1,17 +1,15 @@
 <template>
-  <div v-for="post in postStore.community" :key="post.name">
-    <!-- Figure out way to keep track of posts--an id property?? for the entire app not just per user?? -->
-    <h1>{{ post.showName }}</h1>
-    <h2>{{ post.postID }}</h2>
-    <img :src="post.showImage" alt="">
-    <p>{{ post.text }}</p>
+  <div class="posts"> 
+    <ShowPost v-for="post in postStore.community" :post="post" :key="post.showName"/>
   </div>
 </template>
 
 <script>
+import ShowPost from '../components/ShowPost.vue';
 import { usePostStore } from '../stores/posts';
 
 export default {
+  components: { ShowPost },
   setup() {
     const postStore = usePostStore();
     return { postStore };
@@ -19,6 +17,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .posts {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
 </style>

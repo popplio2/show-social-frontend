@@ -64,8 +64,8 @@ export default {
 
 <style>
   .my-shows {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    background-color: #f3f;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
   }
 </style>
