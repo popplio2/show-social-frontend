@@ -49,12 +49,15 @@ export default {
     postShow() {
       document.getElementById('community').setCustomValidity('');
       if (this.toCommunity || this.toFriends) {
+        const date = new Date();
         const postObject = {
           author: this.userStore.username,
           showName: this.show.name,
+          showID: this.show.id,
           showImage: this.show.image.original,
           text: this.postText,
-          date: new Date().toJSON().slice(0, 10),
+          datePosted: date.toJSON().slice(0, 10),
+          timePosted: date.getHours() + ':' + date.getMinutes(),
           toCommunity: this.toCommunity,
           toFriends: this.toFriends,
         };

@@ -9,7 +9,10 @@
       <div class="post-text">
         <p>{{ post.text }}</p>
         <h4>{{ post.author }}</h4>
-        <h4>{{ post.date }}</h4>
+        <span>
+          <h4>{{ post.datePosted }}</h4>
+          <h4>{{ post.timePosted }}</h4>
+        </span>
       </div>
     </div>
  </div>
@@ -60,13 +63,12 @@ export default {
     object-fit: cover;
     height: 10rem;
   }
-  .post-text p {
-    width: max-content;
+  /* .post-text p {
     height: 10rem;
-    white-space: nowrap;
+    white-space: wrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
+  } */
 
 /* Media queries for responsive behavior */
 @media screen and (max-width: 1200px) {

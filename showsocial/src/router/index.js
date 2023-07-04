@@ -30,6 +30,11 @@ const router = createRouter({
       path: '/find-friends',
       name: 'find-friends',
       component: () => import('../views/FindFriends.vue')
+    },
+    {
+      path: '/show/:id',
+      name: 'show',
+      component: () => import('../views/ShowView.vue')
     }
   ]
 })

@@ -10,6 +10,9 @@ const userStore = useUserStore();
     <p v-else>(Image not available)</p>
     <button @click="userStore.addShow(show)" class="add-btn" v-if="isAddable">Add show</button>
     <button @click="$emit('post')" class="add-btn" v-else>Post show</button>
+    <router-link :to="showPath">
+      <button class="add-btn">More info</button>
+    </router-link>
   </div>
 </template>
 
@@ -20,6 +23,11 @@ export default {
     show: Object,
     isAddable: Boolean,
   },
+  computed: {
+    showPath: function () {
+      return `/show/${this.show.id}`;
+    },
+  }
 }
 </script>
 
