@@ -1,6 +1,6 @@
 <template>
   <div class="posts"> 
-    <ShowPost v-for="post in postStore.community" :post="post" :key="post.showName"/>
+    <ShowPost v-for="post in postStore.community" :post="post" :key="post.id"/>
   </div>
 </template>
 

@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid';
+
 import { useUserStore } from '../stores/user';
 import { usePostStore } from '../stores/posts';
 
@@ -51,6 +53,7 @@ export default {
       if (this.toCommunity || this.toFriends) {
         const date = new Date();
         const postObject = {
+          id: uuidv4(), //creates unique id for the post
           author: this.userStore.username,
           showName: this.show.name,
           showID: this.show.id,

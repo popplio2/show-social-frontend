@@ -1,5 +1,5 @@
 <template>
-  <div class="post-wrapper">
+  <router-link :to="postPath" class="post-wrapper">
     <h3>I'm watching {{ post.showName }}!</h3>
     <div class="post-contents">
       <div>
@@ -15,7 +15,7 @@
         </span>
       </div>
     </div>
- </div>
+  </router-link>
 </template>
 
 <script>
@@ -24,6 +24,11 @@ import { usePostStore } from '../stores/posts';
 export default {
   props: {
     post: Object,
+  },
+  computed: {
+    postPath: function () {
+      return `/post/${this.post.id}`;
+    },
   },
   data() {
     return {
@@ -36,6 +41,7 @@ export default {
     const postStore = usePostStore();
     return { postStore };
   },
+  
 }
 </script>
 

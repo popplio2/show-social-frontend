@@ -1,9 +1,11 @@
 <template>
   <div v-if="showFetched">
-    <button @click="alert">nfekms</button>
     <h1>{{ show.name }}</h1>
-    <h2>{{ show.summary.replace('<p>','').replace('</p>', '') }}</h2>
-    <ShowPost v-for="post in showPosts" :post="post" :key="post.showName"/>
+    <p>{{ show.summary.replace('<p>','').replace('</p>', '') }}</p>
+    <h2>Posts for this show:</h2>
+    <div class="posts">
+      <ShowPost v-for="post in showPosts" :post="post" :key="post.id"/>
+    </div>
   </div>
 </template>
 
@@ -46,5 +48,9 @@ export default {
 </script>
 
 <style>
-
-</style>
+  .posts {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+</style> 

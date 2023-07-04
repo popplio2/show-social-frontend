@@ -33,9 +33,9 @@ export default {
 
 <style scoped>
    .show-wrapper {
-    flex-basis: 20rem; /* Minimum width of 30rem */
+    flex-basis: 20rem; /* Minimum width */
     flex-grow: 1; /* Allow items to grow and fill up remaining space */
-    max-width: calc(100% / 3); /* Divide the container into equal columns */
+    max-width: calc(100% / 5); /* Divide the container into equal columns */
     
     display: flex;
     flex-direction: column;
@@ -66,13 +66,18 @@ export default {
   /* Media queries for responsive behavior */
 @media screen and (max-width: 1200px) {
   .show-wrapper {
-    max-width: calc(100% / 2); /* Two columns on smaller screens */
+    max-width: calc(100% / 4); /* four columns */
   }
 }
 
 @media screen and (max-width: 768px) {
   .show-wrapper {
-    max-width: 100%; /* Single column on the smallest screens */
+    max-width: calc(100% / 2); /* two columns */
+  }
+}
+@media screen and (max-width: 480px) {
+  .show-wrapper {
+    max-width: 100% /* Single column on the smallest screens */
   }
 }
 </style>
