@@ -10,6 +10,9 @@ import { usePostStore } from '../stores/posts';
 
 export default {
   components: { ShowPost },
+  mounted() {
+    console.log(new Date());
+  },
   setup() {
     const postStore = usePostStore();
     return { postStore };

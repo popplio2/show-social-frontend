@@ -1,6 +1,7 @@
 <template>
   <div v-if="showFetched">
     <h1>{{ show.name }}</h1>
+    <img :src="show.image.original" alt="" v-if="show.image">
     <p>{{ show.summary.replace('<p>','').replace('</p>', '') }}</p>
     <h2>Posts for this show:</h2>
     <div class="posts">
@@ -52,5 +53,11 @@ export default {
     display: flex;
     gap: 2rem;
     flex-wrap: wrap;
+  }
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 20rem;
+    margin: 2rem 0;
   }
 </style> 

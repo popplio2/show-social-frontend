@@ -51,7 +51,6 @@ export default {
     postShow() {
       document.getElementById('community').setCustomValidity('');
       if (this.toCommunity || this.toFriends) {
-        const date = new Date();
         const postObject = {
           id: uuidv4(), //creates unique id for the post
           author: this.userStore.username,
@@ -59,8 +58,7 @@ export default {
           showID: this.show.id,
           showImage: this.show.image.original,
           text: this.postText,
-          datePosted: date.toJSON().slice(0, 10),
-          timePosted: date.getHours() + ':' + date.getMinutes(),
+          datePosted: new Date(),
           toCommunity: this.toCommunity,
           toFriends: this.toFriends,
         };
