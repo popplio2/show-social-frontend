@@ -61,6 +61,7 @@ export default {
           datePosted: new Date(),
           toCommunity: this.toCommunity,
           toFriends: this.toFriends,
+          // likes: 0,
         };
         if (this.toCommunity && this.toFriends) {
           this.postStore.addToBoth(postObject);

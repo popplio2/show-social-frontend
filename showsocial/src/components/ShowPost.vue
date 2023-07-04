@@ -9,9 +9,8 @@
       <div class="post-text">
         <p>"{{ post.text }}"</p>
         <h4>By {{ post.author }}</h4>
-        <span>
-          <h4>Posted on {{ post.datePosted.toLocaleString() }}</h4>
-        </span>
+        <h4>Posted on {{ post.datePosted.toLocaleString() }}</h4>
+        <!-- <h4>❤️{{ post.likes }}</h4> -->
       </div>
     </div>
   </router-link>

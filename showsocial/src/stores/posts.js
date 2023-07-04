@@ -9,6 +9,9 @@ export const usePostStore = defineStore({
     friends: [],
   }),
   actions: {
+    // likePost(post) {
+    //   post.likes++;
+    // },
     addToFriends(post) {
       this.friends.unshift(post);
     },

@@ -5,10 +5,10 @@
       <img :src="post.showImage" alt="" v-if="post.showImage">
       <p v-else>(Image not available)</p>
     </router-link>
-    <p>{{ post.text }}</p>
-    <h4>{{ post.author }}</h4>
-    <h4>{{ post.datePosted }}</h4>
-    <h4>{{ post.timePosted }}</h4>
+    <p>"{{ post.text }}"</p>
+    <h4>By {{ post.author }}</h4>
+    <h4>Posted on {{ post.datePosted.toLocaleString() }}</h4>
+    <!-- <button @click="post.likes+=1">❤️{{ post.likes }}</button> -->
     </div>
 </template>
 
