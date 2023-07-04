@@ -70,6 +70,7 @@ export default {
         } else { // if(this.toFriends)
           this.postStore.addToFriends(postObject)
         }
+        this.userStore.addToPosts(postObject);
       }
        else {
         document.getElementById('community').setCustomValidity("Select at least one place to post.");

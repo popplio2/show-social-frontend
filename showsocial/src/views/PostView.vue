@@ -6,7 +6,9 @@
       <p v-else>(Image not available)</p>
     </router-link>
     <p>"{{ post.text }}"</p>
-    <h4>By {{ post.author }}</h4>
+    <router-link :to="userPath">
+      <h4>By {{ post.author }}</h4>
+    </router-link>
     <h4>Posted on {{ post.datePosted.toLocaleString() }}</h4>
     <!-- <button @click="post.likes+=1">❤️{{ post.likes }}</button> -->
     </div>
@@ -14,10 +16,12 @@
 
 <script>
 import { usePostStore } from '../stores/posts';
+import { useUserStore } from '../stores/user';
 export default {
   setup() {
     const postStore = usePostStore();
-    return { postStore };
+    const userStore = useUserStore();
+    return { postStore, userStore };
   },
   mounted() {
     this.fetchData();
@@ -31,6 +35,9 @@ export default {
   computed: {
     showPath: function () {
       return `/show/${this.post.showID}`;
+    },
+    userPath: function () {
+      return `/user/${this.post.author}`;
     },
   },
   methods: {

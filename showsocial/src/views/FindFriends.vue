@@ -23,11 +23,15 @@ export default {
   data() {
     return {
       searchInput: "",
-      userArray: [
+      userSample: [
         {
-          id: "0123456789",
-          name: "Daniel202"
-          
+          username: "Dan202",
+          email: "",
+          myShows: [],
+          showCounter: 0,
+          posts: [],
+          friendRequests: [],
+          friends: [],
         }
       ]
     }

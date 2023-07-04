@@ -5,16 +5,16 @@ const userStore = useUserStore();
 
 <template>
   <RouterLink to="/find-friends">
-    <button>Profile</button>
+    <button>Find friends</button>
   </RouterLink>
   
   <div>
-    <img :src="userStore.profilePic" alt="" v-if="userStore.profilePic">
-    <h1 v-else>Oof no profile pic 0_0</h1>
+    <!-- <img :src="userStore.profilePic" alt="" v-if="userStore.profilePic">
+    <h1 v-else>Oof no profile pic 0_0</h1> -->
     <h1>{{ userStore.username }}'s Friends</h1>
     <div v-if="userStore.friends.length !== 0">
       <div>
-        <!-- <h2 v-for="friend in userStore.friends" :key="friend.id">{{ friend.name }}</h2> -->
+        <h2 v-for="friend in userStore.friends" :key="friend.id">{{ friend.name }}</h2>
       </div>
     </div>
     <h2 v-else>You have no friends added. Search for friends here.</h2>

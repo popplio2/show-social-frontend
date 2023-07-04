@@ -14,6 +14,9 @@ export const useUserStore = defineStore({
     friends: [],
   }),
   actions: {
+    addToPosts(post) {
+      this.posts.unshift(post);
+    },
     addShow(show) {
       this.myShows.push(show);
       this.showCounter++;
