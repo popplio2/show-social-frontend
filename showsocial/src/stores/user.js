@@ -18,7 +18,13 @@ export const useUserStore = defineStore({
     ],
     friends: [],
   }),
+  // getters: {
+  //   isFriend: (state, username) => state.friends.includes(username),
+  // },
   actions: {
+    isFriend(username) {
+      return this.friends.includes(username);
+    },
     approveRequest(username) {
       this.addFriend(username);
       this.deleteRequest(username);

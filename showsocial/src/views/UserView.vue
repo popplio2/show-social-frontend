@@ -5,8 +5,9 @@
     </div> -->
     <h1>{{ user.username }}'s Posts</h1>
 
-    <button @click="requestFriend()" v-if="!isRequested">Send friend request</button>
-    <button @click="unsendRequest()" v-else>Requested</button>
+    <button @click="requestFriend()" v-if="!isRequested && !isFriend">Send friend request</button>
+    <button @click="deleteFriend()" v-if="isFriend">Friends</button>
+    <button @click="unsendRequest()" v-if="isRequested">Requested</button>
 
     <div class="posts">
       <ShowPost v-for="post in user.posts" :post="post" :key="post.id"/>
@@ -47,6 +48,7 @@ export default {
       ],
       user: null,
       isRequested: false,
+      isFriend: false,
       hasUser: false,
     }
   },
@@ -81,11 +83,28 @@ export default {
       console.log(this.userStore.friendRequests);
       this.checkRequested();
     },
+    deleteFriend() {
+      if (confirm(`Do you want to remove ${this.user.username} as your friend?`) == true) {
+        const me = this.user.friends.findIndex(friend => friend === this.userStore.username);
+        this.user.friends.splice(me, 1); //deletes request on other user's end
+        const friend = this.userStore.friends.findIndex(friend => friend === this.user.username);
+        this.userStore.friends.splice(friend, 1); //deletes request on your end
+      }
+      this.checkRequested();
+    },
     checkRequested() {
-      if (this.userStore.friendRequests.find(request => request.receiver === this.user.username)) {
+      const isRequested = this.userStore.friendRequests.find(request => request.receiver === this.user.username);
+      const isFriend = this.userStore.isFriend(this.user.username);
+      if (isRequested && isFriend) {
         this.isRequested = true;
+        this.isFriend = true;
+      } else if (isRequested) {
+        this.isRequested = true;
+      } else if (isFriend) {
+        this.isFriend = true;
       } else {
         this.isRequested = false;
+        this.isFriend = false;
       }
     }
   } 
