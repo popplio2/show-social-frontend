@@ -24,7 +24,7 @@ export default {
     return { postStore, userStore };
   },
   mounted() {
-    this.fetchData();
+    this.getPost();
   },
   data() {
     return {
@@ -41,7 +41,7 @@ export default {
     },
   },
   methods: {
-    fetchData() {
+    getPost() {
       console.log(this.postStore.community);
       this.post = this.postStore.community.find(post => post.id === this.$route.params.id);
       this.hasPost = true;

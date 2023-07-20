@@ -10,10 +10,30 @@ export const useUserStore = defineStore({
     myShows: [],
     showCounter: 0,
     posts: [],
-    friendRequests: [],
+    friendRequests: [
+      {
+        sender: 'Dan202',
+        receiver: 'Dan'
+      }
+    ],
     friends: [],
   }),
   actions: {
+    approveRequest(username) {
+      this.addFriend(username);
+      this.deleteRequest(username);
+    },
+    deleteRequest(username) {
+      const request = this.friendRequests.findIndex(request => request.sender === username);
+      this.friendRequests.splice(request, 1);
+    },
+    addFriend(username) {
+      this.friends.push(username);
+    },
+    deleteFriend(username) { //havent tested
+      const friend = this.userStore.friends.findIndex(friend => friend === username);
+      this.friends.splice(friend, 1);
+    },
     addToPosts(post) {
       this.posts.unshift(post);
     },

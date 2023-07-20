@@ -5,8 +5,8 @@
     </div> -->
     <h1>{{ user.username }}'s Posts</h1>
 
-    <button @click="requestFriend(user.username)" v-if="!isRequested">Send friend request</button>
-    <button @click="unsendRequest(user.username)" v-else>Requested</button>
+    <button @click="requestFriend()" v-if="!isRequested">Send friend request</button>
+    <button @click="unsendRequest()" v-else>Requested</button>
 
     <div class="posts">
       <ShowPost v-for="post in user.posts" :post="post" :key="post.id"/>
@@ -26,7 +26,7 @@ export default {
     return { postStore, userStore };
   },
   mounted() {
-    this.fetchData();
+    this.getUser();
   },
   data() {
     return {
@@ -37,9 +37,12 @@ export default {
           myShows: [],
           showCounter: 0,
           posts: [{"id":"32e0a9ea-3531-4a7e-b254-5f7e8c089360","author":"Dan202","showName":"Initial D","showID":9740,"showImage":"https://static.tvmaze.com/uploads/images/original_untouched/459/1148933.jpg","text":"d","datePosted":"[native Date Tue Jul 04 2023 05:02:45 GMT-0400 (Eastern Daylight Time)]","toCommunity":true,"toFriends":false}],
-          friendRequests: [],
-          friends: [
-          ],
+          friendRequests: [
+            {
+              sender: 'Dan202',
+              receiver: 'Dan'
+            }],
+          friends: [],
         }
       ],
       user: null,
@@ -53,29 +56,29 @@ export default {
     },
   },
   methods: {
-    fetchData() {
+    getUser() {
       this.user = this.userSample.find(user => user.username === this.$route.params.username);
       this.checkRequested();
       this.hasUser = true;
     },
-    requestFriend(username) {
-      const user = this.userSample.find(user => user.username === username); //finds other user
+    requestFriend() {
       const request = {
         sender: this.userStore.username,
-        receiver: user.username
+        receiver: this.user.username
       };
       this.userStore.friendRequests.push(request);
-      user.friendRequests.push(request);
+      this.user.friendRequests.push(request);
       this.checkRequested();
     },
-    unsendRequest(username) {
+    unsendRequest() {
       if (confirm("Do you want to unsend your friend request?") == true) {
-        const user = this.userSample.find(user => user.username === username);
-        const request = user.friendRequests.find(request => request.sender === this.userStore.username);
-        user.friendRequests.pop(request); //deletes request from other user
-        const myRequest = this.userStore.friendRequests.find(request => request.receiver === this.user.username);
-        this.userStore.friendRequests.pop(myRequest); //deletes request from your data
+        const request = this.user.friendRequests.findIndex(request => request.sender === this.userStore.username);
+        this.user.friendRequests.splice(request, 1); //deletes request on other user's end
+        const myRequest = this.userStore.friendRequests.findIndex(request => request.receiver === this.user.username);
+        this.userStore.friendRequests.splice(myRequest, 1); //deletes request on your end
       }
+      console.log(this.user.friendRequests);
+      console.log(this.userStore.friendRequests);
       this.checkRequested();
     },
     checkRequested() {
