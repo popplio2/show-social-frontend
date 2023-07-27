@@ -1,13 +1,13 @@
 <template>
   <h1>Friends</h1>
-  <router-link v-for="friend in userStore.friends" :to="/user/ + friend" :key="friend" v-if="friendPosts">
+  <router-link v-for="friend in userStore.friends" :to="/user/ + friend" :key="friend">
     <button>{{ friend }}</button>
   </router-link>
   
-  <div class="posts" v-if="friendPosts"> 
+  <div class="posts" v-if="friendPosts[0]"> 
     <ShowPost v-for="post in friendPosts" :post="post" :key="post.id"/>
   </div>
-  <h2 v-else></h2>
+  <h2 v-else>Make some friends to see their posts!</h2>
 </template>
 
 <script>
