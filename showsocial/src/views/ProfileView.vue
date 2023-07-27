@@ -118,10 +118,5 @@ export default {
 }
 </script>
 
-<style>
-  .my-shows {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
+<style scoped>
 </style>
