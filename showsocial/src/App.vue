@@ -1,8 +1,7 @@
 <template>
-  <!-- <SignupModal @sign-in="isRegistered = true;" v-if="!isRegistered" /> -->
   <header> 
       <nav>
-        <RouterLink to="/">Community</RouterLink>
+        <RouterLink to="/community">Community</RouterLink>
         <RouterLink to="/friends">Friends</RouterLink>
         <RouterLink to="/search">Search Shows</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
@@ -15,12 +14,9 @@
 </template>
 
 <script>
-// import SignupModal from './components/SignupModal.vue'
 export default {
-  // components: { SignupModal },
   data() {
     return {
-      isRegistered: false,
     }
   }
 }

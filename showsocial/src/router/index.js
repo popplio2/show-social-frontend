@@ -5,6 +5,18 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+      // props: post,
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: () => import('../views/SignupView.vue'),
+      // props: post,
+    },
+    {
+      path: '/community',
       name: 'community',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -47,7 +59,7 @@ const router = createRouter({
       name: 'user',
       component: () => import('../views/UserView.vue'),
       // props: post,
-    }
+    },
   ]
 })
 
