@@ -46,29 +46,12 @@ export default {
       }
       try {
         const response = await axios.post('http://127.0.0.1:8000/auth/users/', formData)
-        console.log('Registration successful:', response);
+        console.log(response);
         this.$router.push('/');
       } catch (error) {
-        console.error('Registration error:', error);
+        console.log(error);
+        alert("An error occurred. Try making your password more complex.")
       }
-      // try {
-      //   const response = await fetch('http://127.0.0.1:8000/api/v1/users', {
-      //     method: 'POST',
-      //     headers: { 
-      //       'Content-Type': 'application/json',
-      //       'Authorization': this.authStore.access
-      //     },
-      //     body: JSON.stringify({ 
-      //       username: this.username,
-      //       password: this.password
-      //     }),
-      //   });
-      //   console.log(await response.json());
-      //   this.$router.push('/profile');
-      // } catch (error) {
-      //   alert(error);
-      //   // Handle the login error (e.g., show an error message to the user)
-      // }
     },
   },
 }

@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { useUserStore } from './stores/user';
 import { useAuthStore } from './stores/auth';
 import axios from 'axios';
 
@@ -24,8 +25,9 @@ export default {
     }
   },
   setup() {
+    const userStore = useUserStore();
     const authStore = useAuthStore();
-    return { authStore };
+    return { userStore, authStore };
   },
   beforeCreate() {
     this.authStore.initializeStore();
@@ -38,26 +40,35 @@ export default {
     }
   },
   mounted() {
+    this.getMe();
     setInterval(() => {
       this.getAccess();
-    }, 5000);
+    }, 6000);
   },
   methods: {
-    getAccess() {
+    async getAccess() {
       const accessData = {
         refresh: this.authStore.refresh
       }
-
-      axios
-          .post('http://127.0.0.1:8000/auth/jwt/refresh/', accessData)
-          .then(response => {
-            const access = response.data.access;
-            localStorage.setItem('access'), access;
-            this.authStore.setAccess(access);
-          })
-          .catch(error => {
-            console.log(error);
-          });
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/auth/jwt/refresh/', accessData);
+        const access = response.data.access;
+        localStorage.setItem('access', access);
+        this.authStore.setAccess(access);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getMe() {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/auth/users/me");
+        console.log(response);
+        this.userStore.id = response.data.id;
+        this.userStore.username = response.data.username;
+        this.$router.push('/profile');
+      } catch(error) {
+          console.log(error);
+      }
     }
   }
 }
