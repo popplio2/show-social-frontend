@@ -52,6 +52,7 @@
 
 <script>
 import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
 import ShowComponent from '../components/ShowComponent.vue';
 import PostModal from '../components/PostModal.vue';
 import ShowPost from '../components/ShowPost.vue';
@@ -64,7 +65,8 @@ export default {
   },
   setup() {
     const userStore = useUserStore();
-    return { userStore };
+    const authStore = useAuthStore();
+    return { userStore, authStore };
   },
   mounted() {
     this.getRequests();

@@ -1,5 +1,5 @@
 <template>
-  <form @submit="loginUser()" onsubmit="return false">
+  <form @submit.prevent="loginUser()" onsubmit="return false">
     <h1>Login</h1>
     <label for="username">Username</label>
     <input v-model="username" type="text" id="username" name="username" required>
@@ -13,61 +13,68 @@
       <h3>Don't have an account?</h3>
       <button>Sign Up</button>
     </router-link>
-    <button @click="getCurrentUser()">Get user</button>
+    <!-- <button @click="getCurrentUser()">Get user</button> -->
   </form>
 </template>
 
 <script>
 import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
+import axios from 'axios';
+
 export default {
   name: "LoginView",
   setup() {
     const userStore = useUserStore();
-    return { userStore };
+    const authStore = useAuthStore();
+    return { userStore, authStore };
   },
   data() {
     return {
       username: "",
-      email: "",
       password: "",
     }
   },
   methods: {
     async loginUser() {
+      axios.defaults.headers.common['Authorization'] = '';
+      localStorage.removeItem("access");
+
+      const formData = {
+        username: this.username,
+        password: this.password
+      }
       try {
-        const response = await fetch('http://127.0.0.1:8000/user/login/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            username: this.username,
-            // email: this.email,
-            password: this.password
-          }),
-        });
-        console.log(await response.json());
-        // Handle the successful login (e.g., redirect the user to a dashboard page)
+        const response = await axios.post('http://127.0.0.1:8000/auth/jwt/create/', formData);
+        console.log(response);
+        const access = response.data.access;
+        const refresh = response.data.refresh;
+
+        this.authStore.setAccess(access);
+        this.authStore.setRefresh(refresh);
+
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + access;
+        localStorage.setItem("access", access);
+        localStorage.setItem("refresh", refresh);
+
+        this.getMe();
+
+        this.$router.push('/profile');
       } catch (error) {
-        alert(error);
-        // Handle the login error (e.g., show an error message to the user)
+        console.log(error);
       }
     },
-    async getCurrentUser() {
+    async getMe() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/user/current/', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        });
-        const data = await response.json();
-        console.log(data);
-        this.userStore.id = data.id;
-        this.userStore.username = data.username;
-        console.log(this.userStore.username);
-        console.log(this.userStore.id);
-      } catch (error) {
-        alert(error);
-        // Handle error
+        const response = await axios.get("http://127.0.0.1:8000/auth/users/me");
+        console.log(response);
+        this.userStore.id = response.data.id;
+        this.userStore.username = response.data.username;
+        this.$router.push('/profile');
+      } catch(error) {
+          console.log(error);
       }
-    },
+    }
   },
 }
 </script>

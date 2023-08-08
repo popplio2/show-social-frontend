@@ -1,14 +1,14 @@
 <template>
-  <form @submit="registerUser()" onsubmit="return false">
+  <form @submit.prevent="registerUser()" onsubmit="return false">
     <h1>Register</h1>
     <label for="username">Username</label>
-    <input v-model="username" type="text" id="username" name="username" required>
+    <input v-model="username" type="text" name="username" required>
 
     <!-- <label for="pic">Email</label> 
     <input v-model="email" type="text" id="email" name="email" required>
     -->
     <label for="password">Password</label>
-    <input v-model="password" type="text" id="password" name="password" required>
+    <input v-model="password" type="text" name="password" required>
 
     <input type="submit" value="Sign Up"> 
 
@@ -21,80 +21,54 @@
 
 <script>
 import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
+import axios from 'axios';
+
 export default {
   name: "SignupView",
   setup() {
     const userStore = useUserStore();
-    return { userStore };
+    const authStore = useAuthStore();
+    return { userStore, authStore };
   },
   data() {
     return {
-      username: "",
-      email: "",
-      password: "",
+      username: "test",
+      password: "test",
       // profilePic: "",
     }
   },
   methods: {
-    // loadFile(event) { //credit to Brian Burns on stackoverflow
-    //   const preview = document.querySelector('.preview');
-    //   preview.src = URL.createObjectURL(event.target.files[0]);
-
-    //   this.profilePic = preview.src;
-    //   console.log(this.profilePic);
-
-    //   preview.onload = function() {
-    //     URL.revokeObjectURL(preview.src) // free memory
-    //   }
-    // },
-    // submitForm() {
-    //   alert('ehlp');
-    //   this.userStore.username = this.username;
-    //   this.userStore.email = this.email;
-    //   this.userStore.profilePic = this.profilePic;
-    //   this.$emit('sign-in');
-    // },
     async registerUser() {
-      try {
-        console.log(this.username + " " + this.password);
-        const requestOptions = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
-            username: this.username,
-            // email: this.email,
-            password: this.password
-          })
-        };
-        const response = await fetch("http://127.0.0.1:8000/user/register/", requestOptions);
-        console.log(response.json());
-
-        this.getCurrentUser();
-
-        // Handle the successful login (e.g., redirect the user to a dashboard page)
-      } catch (error) {
-        alert(error);
-        // Handle the login error (e.g., show an error message to the user)
+      const formData = {
+        username: this.username,
+        password: this.password
       }
-
-    },
-    async getCurrentUser() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/user/current/', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            // Add any required headers (e.g., authentication token) here
-          },
-          credentials: 'include', // This includes cookies and other credentials
-        });
-        const data = await response.json();
-        this.userStore.username = data.username;
-        console.log(this.userStore.username);
+        const response = await axios.post('http://127.0.0.1:8000/auth/users/', formData)
+        console.log('Registration successful:', response);
+        this.$router.push('/');
       } catch (error) {
-        alert(error);
-        // Handle error
+        console.error('Registration error:', error);
       }
+      // try {
+      //   const response = await fetch('http://127.0.0.1:8000/api/v1/users', {
+      //     method: 'POST',
+      //     headers: { 
+      //       'Content-Type': 'application/json',
+      //       'Authorization': this.authStore.access
+      //     },
+      //     body: JSON.stringify({ 
+      //       username: this.username,
+      //       password: this.password
+      //     }),
+      //   });
+      //   console.log(await response.json());
+      //   this.$router.push('/profile');
+      // } catch (error) {
+      //   alert(error);
+      //   // Handle the login error (e.g., show an error message to the user)
+      // }
     },
   },
 }
