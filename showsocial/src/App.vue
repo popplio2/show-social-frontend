@@ -43,7 +43,7 @@ export default {
     this.getMe();
     setInterval(() => {
       this.getAccess();
-    }, 6000);
+    }, 60000);
   },
   methods: {
     async getAccess() {
@@ -52,11 +52,14 @@ export default {
       }
       try {
         const response = await axios.post('http://127.0.0.1:8000/auth/jwt/refresh/', accessData);
+        console.log(response);
         const access = response.data.access;
         localStorage.setItem('access', access);
         this.authStore.setAccess(access);
       } catch (error) {
         console.log(error);
+        alert('you are logged out');
+        this.$router.push('/');
       }
     },
     async getMe() {
