@@ -26,12 +26,15 @@
 
 <script>
 import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
+
 import axios from 'axios';
 
 export default {
   setup() {
     const userStore = useUserStore();
-    return { userStore };
+    const authStore = useAuthStore();
+    return { userStore, authStore };
   },
   data() {
     return {
@@ -45,8 +48,12 @@ export default {
         const response = await axios.get(`http://127.0.0.1:8000/api/get_users/?search=${this.searchInput}`);
         console.log(response);
         this.suggestedUsers = response.data;
+        if (!this.suggestedUsers[0]) {
+          alert('No user found with that username. Check for misspellings or typos.');
+        }
       } catch (error) {
-        console.log(error);
+        alert('Please login first.');
+        this.$router.push('/');
       }
       // this.userSample.forEach(user => {
       //   if (user.username.includes(this.searchInput)) {

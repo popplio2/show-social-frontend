@@ -56,6 +56,7 @@ import { useAuthStore } from '../stores/auth';
 import ShowComponent from '../components/ShowComponent.vue';
 import PostModal from '../components/PostModal.vue';
 import ShowPost from '../components/ShowPost.vue';
+import axios from 'axios';
 
 export default {
   components: { 
@@ -69,6 +70,11 @@ export default {
     return { userStore, authStore };
   },
   mounted() {
+    this.getAccess();
+    this.getMe();
+    setInterval(() => {
+      this.getAccess();
+    }, 60000);
     this.getRequests();
   },
   data() {
@@ -93,6 +99,34 @@ export default {
     }
   },
   methods: {
+    async getAccess() {
+      const accessData = {
+        refresh: this.authStore.refresh
+      }
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/auth/jwt/refresh/', accessData);
+        console.log(response);
+        const access = response.data.access;
+        localStorage.setItem('access', access);
+        this.authStore.setAccess(access);
+      } catch (error) {
+        console.log(error);
+        alert('Log in first to view your profile!');
+        this.$router.push('/');
+      }
+    },
+    async getMe() {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/auth/users/me");
+        console.log(response);
+        this.userStore.id = response.data.id;
+        this.userStore.username = response.data.username;
+      } catch(error) {
+          console.log(error);
+          alert('An error occurred.');
+          this.$router.push('/');
+      }
+    },
     postShow(show) {
       this.showPost = show;
     },
