@@ -57,24 +57,13 @@ export default {
         localStorage.setItem("access", access);
         localStorage.setItem("refresh", refresh);
 
-        this.getMe();
+        this.authStore.getMe();
 
         this.$router.push('/profile');
       } catch (error) {
         console.log(error);
       }
     },
-    async getMe() {
-      try {
-        const response = await axios.get("http://127.0.0.1:8000/auth/users/me");
-        console.log(response);
-        this.userStore.id = response.data.id;
-        this.userStore.username = response.data.username;
-        this.$router.push('/profile');
-      } catch(error) {
-          console.log(error);
-      }
-    }
   },
 }
 </script>

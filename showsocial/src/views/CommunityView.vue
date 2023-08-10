@@ -7,15 +7,17 @@
 <script>
 import ShowPost from '../components/ShowPost.vue';
 import { usePostStore } from '../stores/posts';
+import { useAuthStore } from '../stores/auth';
 
 export default {
   components: { ShowPost },
   mounted() {
-    console.log(new Date());
+    this.authStore.getAccess();
   },
   setup() {
     const postStore = usePostStore();
-    return { postStore };
+    const authStore = useAuthStore();
+    return { postStore, authStore };
   },
 }
 </script>

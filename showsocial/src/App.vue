@@ -40,40 +40,13 @@ export default {
     }
   },
   mounted() {
-    this.getAccess();
-    this.getMe();
+    this.authStore.getAccess();
+    this.authStore.getMe();
     setInterval(() => {
-      this.getAccess();
+      this.authStore.getAccess();
     }, 60000);
   },
   methods: {
-    async getAccess() {
-      const accessData = {
-        refresh: this.authStore.refresh
-      }
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/auth/jwt/refresh/', accessData);
-        console.log(response);
-        const access = response.data.access;
-        localStorage.setItem('access', access);
-        this.authStore.setAccess(access);
-      } catch (error) {
-        console.log(error);
-        alert('Please log in to view this.');
-        this.$router.push('/');
-      }
-    },
-    async getMe() {
-      try {
-        const response = await axios.get("http://127.0.0.1:8000/auth/users/me");
-        console.log(response);
-        this.userStore.id = response.data.id;
-        this.userStore.username = response.data.username;
-        this.$router.push('/profile');
-      } catch(error) {
-          console.log(error);
-      }
-    }
   }
 }
 </script>

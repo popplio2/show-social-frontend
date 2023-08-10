@@ -17,13 +17,18 @@
 <script>
 import { usePostStore } from '../stores/posts';
 import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
+
 export default {
   setup() {
     const postStore = usePostStore();
     const userStore = useUserStore();
-    return { postStore, userStore };
+    const authStore = useAuthStore();
+
+    return { postStore, userStore, authStore };
   },
   mounted() {
+    this.authStore.getAccess();
     this.getPost();
   },
   data() {

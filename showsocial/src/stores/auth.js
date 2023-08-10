@@ -1,4 +1,7 @@
 import { defineStore } from 'pinia'
+import { useUserStore } from './user'
+import axios from 'axios';
+import router from '../router/index'
 
 export const useAuthStore = defineStore({
   id: 'auth',
@@ -21,6 +24,34 @@ export const useAuthStore = defineStore({
     },
     setRefresh(refresh) {
       this.refresh = refresh;
+    },
+    async getAccess() {
+      const accessData = {
+        refresh: this.refresh
+      }
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/auth/jwt/refresh/', accessData);
+        console.log(response);
+        const access = response.data.access;
+        localStorage.setItem('access', access);
+        this.setAccess(access);
+      } catch (error) {
+        console.log(error);
+        alert('Please log in to view this.');
+        router.push('/');
+      }
+    },
+    async getMe() {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/auth/users/me");
+        console.log(response);
+        useUserStore().id = response.data.id;
+        useUserStore().username = response.data.username;
+      } catch(error) {
+          console.log(error);
+          alert('Please log in to view this.');
+          router.push('/');
+      }
     }
   }
 })

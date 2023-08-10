@@ -19,6 +19,8 @@
 import ShowPost from '../components/ShowPost.vue';
 import { usePostStore } from '../stores/posts';
 import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
+
 import axios from 'axios';
 
 export default {
@@ -26,9 +28,12 @@ export default {
   setup() {
     const postStore = usePostStore();
     const userStore = useUserStore();
-    return { postStore, userStore };
+    const authStore = useAuthStore();
+
+    return { postStore, userStore, authStore };
   },
   mounted() {
+    this.authStore.getAccess();
     this.getUser();
   },
   data() {

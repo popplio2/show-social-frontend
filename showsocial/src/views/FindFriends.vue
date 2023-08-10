@@ -26,18 +26,25 @@
 
 <script>
 import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
+
 import axios from 'axios';
 
 export default {
   setup() {
     const userStore = useUserStore();
-    return { userStore };
+    const authStore = useAuthStore();
+
+    return { userStore, authStore };
   },
   data() {
     return {
       searchInput: "",
       suggestedUsers: [],
     }
+  },
+  mounted() {
+    this.authStore.getAccess();
   },
   methods: {
     async fetchUsers() {

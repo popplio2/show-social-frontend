@@ -11,20 +11,22 @@
 </template>
 
 <script>
-import { useUserStore } from '../stores/user';
-import { usePostStore } from '../stores/posts';
 import ShowPost from '../components/ShowPost.vue';
+import { usePostStore } from '../stores/posts';
+import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
 
 export default {
-  components: {
-    ShowPost 
-  },
+  components: { ShowPost },
   setup() {
-    const userStore = useUserStore();
     const postStore = usePostStore();
-    return { userStore, postStore };
+    const userStore = useUserStore();
+    const authStore = useAuthStore();
+
+    return { postStore, userStore, authStore };
   },
   mounted() {
+    this.authStore.getAccess();
     this.getPosts();
   },
   data() {

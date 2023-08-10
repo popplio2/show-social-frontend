@@ -56,7 +56,7 @@ import { useAuthStore } from '../stores/auth';
 import ShowComponent from '../components/ShowComponent.vue';
 import PostModal from '../components/PostModal.vue';
 import ShowPost from '../components/ShowPost.vue';
-import axios from 'axios';
+// import axios from 'axios';
 
 export default {
   components: { 
@@ -70,6 +70,7 @@ export default {
     return { userStore, authStore };
   },
   mounted() {
+    this.authStore.getAccess();
     // this.getRequests();
     // this.getShows();
   },

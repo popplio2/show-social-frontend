@@ -12,14 +12,19 @@
 
 <script>
 import { usePostStore } from '../stores/posts';
+import { useAuthStore } from '../stores/auth';
+
 import ShowPost from '../components/ShowPost.vue'
 export default {
   components: { ShowPost },
   setup() {
     const postStore = usePostStore();
-    return { postStore };
+    const authStore = useAuthStore();
+
+    return { postStore, authStore };
   },
   mounted() {
+    this.authStore.getAccess();
     this.fetchData();
   },
   data() {

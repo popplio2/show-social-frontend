@@ -24,6 +24,8 @@
 </template>
 <script>
 import { useUserStore } from '../stores/user';
+import { useAuthStore } from '../stores/auth';
+
 import ShowComponent from '../components/ShowComponent.vue';
 export default {
   name: "SearchView",
@@ -39,9 +41,13 @@ export default {
   },
   setup() {
     const userStore = useUserStore();
-    return { userStore };
+    const authStore = useAuthStore();
+
+    return { userStore, authStore };
   },
-  
+  mounted() {
+    this.authStore.getAccess();
+  },
   methods: {
     setGenre(genre) {
       this.genreSelected = genre;
