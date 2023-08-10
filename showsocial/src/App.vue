@@ -40,6 +40,7 @@ export default {
     }
   },
   mounted() {
+    this.getAccess();
     this.getMe();
     setInterval(() => {
       this.getAccess();
@@ -58,7 +59,7 @@ export default {
         this.authStore.setAccess(access);
       } catch (error) {
         console.log(error);
-        alert('you are logged out');
+        alert('Please log in to view this.');
         this.$router.push('/');
       }
     },

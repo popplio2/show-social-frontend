@@ -41,6 +41,7 @@ export default {
     const userStore = useUserStore();
     return { userStore };
   },
+  
   methods: {
     setGenre(genre) {
       this.genreSelected = genre;

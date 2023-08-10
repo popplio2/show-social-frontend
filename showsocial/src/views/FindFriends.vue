@@ -42,7 +42,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/get_users/?search=${this.searchInput}`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/users/?search=${this.searchInput}`);
         console.log(response);
         this.suggestedUsers = response.data;
       } catch (error) {

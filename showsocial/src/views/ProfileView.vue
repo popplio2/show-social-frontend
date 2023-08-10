@@ -56,6 +56,7 @@ import { useAuthStore } from '../stores/auth';
 import ShowComponent from '../components/ShowComponent.vue';
 import PostModal from '../components/PostModal.vue';
 import ShowPost from '../components/ShowPost.vue';
+import axios from 'axios';
 
 export default {
   components: { 
@@ -69,7 +70,8 @@ export default {
     return { userStore, authStore };
   },
   mounted() {
-    this.getRequests();
+    // this.getRequests();
+    // this.getShows();
   },
   data() {
     return {
@@ -96,6 +98,17 @@ export default {
     postShow(show) {
       this.showPost = show;
     },
+    // async getShows() {
+    //   try {
+    //     const response = await axios.get("http://127.0.0.1:8000/auth/users/me");
+    //     console.log(response);
+    //     this.userStore.id = response.data.id;
+    //     this.userStore.username = response.data.username;
+    //     this.$router.push('/profile');
+    //   } catch(error) {
+    //       console.log(error);
+    //   }
+    // },
     getRequests() {
       this.userStore.friendRequests.forEach(request => {
         if (request.receiver === this.userStore.username) {
@@ -115,7 +128,7 @@ export default {
       //for other user
       const senderRequest = this.userSample[0].friendRequests.findIndex(request => request.receiver === this.userStore.username);
       this.userSample[0].friendRequests.splice(senderRequest, 1);
-    }
+    },
   }
 }
 </script>

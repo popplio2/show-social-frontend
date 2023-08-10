@@ -19,6 +19,8 @@
 import ShowPost from '../components/ShowPost.vue';
 import { usePostStore } from '../stores/posts';
 import { useUserStore } from '../stores/user';
+import axios from 'axios';
+
 export default {
   components: { ShowPost },
   setup() {
@@ -31,21 +33,6 @@ export default {
   },
   data() {
     return {
-      userSample: [
-        {
-          username: "Dan202",
-          email: "",
-          myShows: [],
-          showCounter: 0,
-          posts: [{"id":"32e0a9ea-3531-4a7e-b254-5f7e8c089360","author":"Dan202","showName":"Initial D","showID":9740,"showImage":"https://static.tvmaze.com/uploads/images/original_untouched/459/1148933.jpg","text":"d","datePosted":"[native Date Tue Jul 04 2023 05:02:45 GMT-0400 (Eastern Daylight Time)]","toCommunity":true,"toFriends":false}],
-          friendRequests: [
-            {
-              sender: 'Dan202',
-              receiver: 'Dan'
-            }],
-          friends: [],
-        }
-      ],
       user: null,
       isRequested: false,
       isFriend: false,
@@ -58,10 +45,15 @@ export default {
     },
   },
   methods: {
-    getUser() {
-      this.user = this.userSample.find(user => user.username === this.$route.params.username);
-      this.checkRequested();
-      this.hasUser = true;
+    async getUser() {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/users/?username=${this.$route.params.username}`);
+        this.user = response.data[0];
+        // this.checkRequested();
+        this.hasUser = true;
+      } catch(error) {
+          console.log(error);
+      }
     },
     requestFriend() {
       const request = {

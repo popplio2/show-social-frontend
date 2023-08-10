@@ -7,9 +7,9 @@ export const useUserStore = defineStore({
     username: "",
     email: "",
     profilePic: "",
-    searchInput: "",
+    searchInput: "", 
     myShows: [],
-    // showCounter: 0,
+    showCounter: 0, 
     posts: [],
     friendRequests: [
       // {
