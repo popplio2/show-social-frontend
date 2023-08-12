@@ -12,8 +12,8 @@
 
     <input type="submit" value="Sign Up"> 
 
+    <h3>Already have an account?</h3>
     <router-link to="/">
-      <h3>Already have an account?</h3>
       <button>Login</button>
     </router-link>
   </form>

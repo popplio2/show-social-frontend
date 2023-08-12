@@ -53,13 +53,9 @@ export default {
         console.log(response);
         this.suggestedUsers = response.data;
       } catch (error) {
+        alert('No users found with that username. Check for misspelling or typos.')
         console.log(error);
       }
-      // this.userSample.forEach(user => {
-      //   if (user.username.includes(this.searchInput)) {
-      //     this.suggestedUsers.push(user);
-      //   }
-      // })
     }
   }
 }

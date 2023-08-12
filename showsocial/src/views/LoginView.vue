@@ -9,8 +9,8 @@
 
     <input type="submit" value="Login"> 
 
+    <h3>Don't have an account?</h3>
     <router-link to="/signup">
-      <h3>Don't have an account?</h3>
       <button>Sign Up</button>
     </router-link>
     <!-- <button @click="getCurrentUser()">Get user</button> -->
