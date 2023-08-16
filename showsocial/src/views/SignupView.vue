@@ -50,7 +50,13 @@ export default {
         this.$router.push('/');
       } catch (error) {
         console.log(error);
-        alert("An error occurred. Try making your password more complex.")
+        if (error.response.data.username) {
+          alert('A user with this username already exists.');
+        } else if (error.response.data.password) {
+          alert('Password is too common.');
+        } else {
+          alert("An error occurred. Try making your password more complex.")
+        }
       }
     },
   },

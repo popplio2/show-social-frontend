@@ -24,14 +24,14 @@
 
   <div>
     <h1>{{ userStore.username }}'s Shows</h1>
-    <div v-if="userStore.showCounter !== 0">
+    <div v-if="userStore.myShows">
       <div class="sort-btns">
         <button @click="userStore.sortByName()">Sort alphabetically</button>
         <button @click="userStore.sortByFirst()">Sort by first added</button> 
         <button @click="userStore.sortByLast()">Sort by last added</button> 
       </div>
-      <div class="my-shows">
-        <ShowComponent @post="postShow(show)" v-for="show in userStore.myShows" :show="show" :isAddable="false" :key="show.id" />
+      <div class="shows">
+        <ShowComponent @post="postShow(show)" v-for="show in userStore.myShows" :show="show.show" :fromDB="true" :isAddable="false" :key="show.id" />
       </div>
     </div>
     <h2 v-else>You have no shows added. Go to the search tab to add some!</h2>
@@ -40,7 +40,7 @@
     <div>
       <h1>{{ userStore.username }}'s Posts</h1>
       <div v-if="userStore.posts.length > 0">
-        <div class="my-shows">
+        <div class="shows">
           <ShowPost v-for="post in userStore.posts" :post="post" :key="post.id"/>
         </div>
       </div>
@@ -71,8 +71,7 @@ export default {
   },
   mounted() {
     this.authStore.getAccess();
-    // this.getRequests();
-    // this.getShows();
+    this.authStore.getMe();
   },
   data() {
     return {
@@ -110,29 +109,34 @@ export default {
     //       console.log(error);
     //   }
     // },
-    getRequests() {
-      this.userStore.friendRequests.forEach(request => {
-        if (request.receiver === this.userStore.username) {
-          this.friendRequests.push(request);
-        }
-      });
-    },
-    approveRequest(username) {
-      this.userStore.approveRequest(username);
-      this.userSample[0].friends.push(this.userStore.username); //for other user
-      this.deleteRequest(username);
-    },
-    deleteRequest(username) {
-      this.userStore.deleteRequest(username);
-      const localRequest = this.friendRequests.findIndex(request => request.sender === username);
-      this.friendRequests.splice(localRequest, 1);
-      //for other user
-      const senderRequest = this.userSample[0].friendRequests.findIndex(request => request.receiver === this.userStore.username);
-      this.userSample[0].friendRequests.splice(senderRequest, 1);
-    },
+    // getRequests() {
+    //   this.userStore.friendRequests.forEach(request => {
+    //     if (request.receiver === this.userStore.username) {
+    //       this.friendRequests.push(request);
+    //     }
+    //   });
+    // },
+    // approveRequest(username) {
+    //   this.userStore.approveRequest(username);
+    //   this.userSample[0].friends.push(this.userStore.username); //for other user
+    //   this.deleteRequest(username);
+    // },
+    // deleteRequest(username) {
+    //   this.userStore.deleteRequest(username);
+    //   const localRequest = this.friendRequests.findIndex(request => request.sender === username);
+    //   this.friendRequests.splice(localRequest, 1);
+    //   //for other user
+    //   const senderRequest = this.userSample[0].friendRequests.findIndex(request => request.receiver === this.userStore.username);
+    //   this.userSample[0].friendRequests.splice(senderRequest, 1);
+    // },
   }
 }
 </script>
 
 <style scoped>
+ .shows {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
 </style>

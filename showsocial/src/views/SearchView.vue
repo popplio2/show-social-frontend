@@ -18,7 +18,7 @@
       <h2 @click="languageSelected = null" v-if="languageSelected">x {{ languageSelected }}</h2>
     </div>
     <div class="shows">
-      <ShowComponent v-for="show in showArray" :show="show.show" :isAddable="true" :key="show.show.id"/>
+      <ShowComponent v-for="show in showArray" :show="show.show" :fromDB="false" :isAddable="true" :key="show.show.id"/>
     </div>
   </div>
 </template>

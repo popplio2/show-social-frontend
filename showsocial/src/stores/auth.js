@@ -47,6 +47,9 @@ export const useAuthStore = defineStore({
         console.log(response);
         useUserStore().id = response.data.id;
         useUserStore().username = response.data.username;
+        useUserStore().myShows = response.data.user_shows;
+        useUserStore().posts = response.data.user_posts;
+        console.log(useUserStore().myShows)
       } catch(error) {
           console.log(error);
           alert('Please log in to view this.');

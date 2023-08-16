@@ -1,14 +1,11 @@
-<script setup>
-import { useUserStore } from '../stores/user';
-const userStore = useUserStore();
-</script>
-
 <template>
   <div class="show-wrapper">
     <p>{{ show.name }}</p>
-    <img :src="show.image.original" alt="" v-if="show.image">
-    <p v-else>(Image not available)</p>
-    <button @click="userStore.addShow(show)" class="add-btn" v-if="isAddable">Add show</button>
+    <img :src="show.image.original" alt="" v-if="!fromDB && show.image">
+    <img :src="show.image" alt="" v-if="fromDB && show.image">
+    <p v-if="!show.image">(Image not available)</p>
+
+    <button @click="addShow()" class="add-btn" v-if="isAddable">Add show</button>
     <button @click="$emit('post')" class="add-btn" v-else>Post show</button>
     <router-link :to="showPath">
       <button class="add-btn">More info</button>
@@ -17,16 +14,35 @@ const userStore = useUserStore();
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "ShowComponent",
   props: {
     show: Object,
+    fromDB: Boolean,
     isAddable: Boolean,
   },
   computed: {
     showPath: function () {
       return `/show/${this.show.id}`;
     },
+  },
+  methods: {
+    async addShow() {
+      const showData = {
+        id: this.show.id,
+        name: this.show.name,
+        image: this.show.image ? this.show.image.original : null
+      }
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/shows/add/', showData);
+        console.log(response);
+        alert("Added show!")
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 }
 </script>

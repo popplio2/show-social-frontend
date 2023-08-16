@@ -9,19 +9,11 @@ export const useUserStore = defineStore({
     profilePic: "",
     searchInput: "", 
     myShows: [],
-    showCounter: 0, 
     posts: [],
     friendRequests: [
-      // {
-      //   sender: 'Dan202',
-      //   receiver: 'Dan'
-      // }
     ],
     friends: [],
   }),
-  // getters: {
-  //   isFriend: (state, username) => state.friends.includes(username),
-  // },
   actions: {
     isFriend(username) {
       return this.friends.includes(username);
@@ -44,22 +36,14 @@ export const useUserStore = defineStore({
     addToPosts(post) {
       this.posts.unshift(post);
     },
-    addShow(show) {
-      this.myShows.push(show);
-      this.showCounter++;
-      show.count = this.showCounter; //allows us to keep track of order in which shows were added
-      console.log(this.myShows);
-      console.log(this.showCounter);
-      alert(`${show.name} added to your shows!`);
-    },
     sortByName() {
-      this.myShows.sort((a, b) => a.name.localeCompare(b.name, 'en', {'sensitivity': 'base'}));
+      this.myShows.sort((a, b) => a.show.name.localeCompare(b.show.name, 'en', {'sensitivity': 'base'}));
     },
     sortByFirst() {
-      this.myShows.sort((a,b) => a.count - b.count);
+      this.myShows.sort((a,b) => new Date(a.added_at) - new Date(b.added_at));
     },
     sortByLast() {
-      this.myShows.sort((a,b) => b.count - a.count);
+      this.myShows.sort((a,b) => new Date(b.added_at) - new Date(a.added_at));
     },
   }
 })
